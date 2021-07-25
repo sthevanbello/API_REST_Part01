@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace Alura.WebAPI.WebApp.Controllers.Api
 {
-    public class LivrosController : Controller
+    [ApiController]
+    [Route("[controller]")] // Indica que o roteamento será pelo nome do controlador
+    public class LivrosController : ControllerBase
+        // Deve-se derivar da classe COntrollerBase quando for construir uma API
     {
         private readonly IRepository<Livro> _repo;
 
@@ -17,8 +20,8 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
             _repo = repository;
         }
 
-        [HttpGet]
-        public IActionResult Recuperar(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetLivros(int id)
         {
             var model = _repo.Find(id);
             if (model == null)
@@ -26,7 +29,7 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
                 return NotFound();
             }
 
-            return Json(model.ToModel());
+            return Ok(model.ToModel());
         }
 
         [HttpPost]
@@ -43,7 +46,7 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Alterar([FromBody] LivroUpload model)
         {
             if (ModelState.IsValid)
@@ -62,7 +65,7 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpDelete("{id}")]
         public IActionResult Remover(int id)
         {
             var model = _repo.Find(id);
