@@ -10,7 +10,7 @@ using Lista = Alura.ListaLeitura.Modelos.ListaLeitura;
 namespace Alura.WebAPI.WebApp.Controllers.Api
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ListasLeituraController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
@@ -25,7 +25,7 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
             return new Lista
             {
                 Tipo = tipo.ParaString(),
-                Livros = _repo.All.Where(l => l.Lista == tipo).ToList()
+                Livros = _repo.All.Where(l => l.Lista == tipo).Select(l => l.ToApi()).ToList()
             };
         }
 
