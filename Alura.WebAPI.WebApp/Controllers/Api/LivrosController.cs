@@ -1,5 +1,6 @@
 ﻿using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Alura.WebAPI.WebApp.Controllers.Api
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")] // Indica que o roteamento será pelo nome do controlador
     public class LivrosController : ControllerBase
