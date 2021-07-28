@@ -52,26 +52,26 @@ namespace Alura.ListaLeitura.WebApp
 
             }).AddXmlSerializerFormatters();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "JwtBearer";
+            //    options.DefaultChallengeScheme = "JwtBearer";
 
-            }).AddJwtBearer("JwtBearer", options => 
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
-                    ClockSkew = TimeSpan.FromMinutes(5),
-                    ValidIssuer = "Alura.WebApp",
-                    ValidAudience = "Postman",
+            //}).AddJwtBearer("JwtBearer", options => 
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
+            //        ClockSkew = TimeSpan.FromMinutes(5),
+            //        ValidIssuer = "Alura.WebApp",
+            //        ValidAudience = "Postman",
 
-                };
-            });
+            //    };
+            //});
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
