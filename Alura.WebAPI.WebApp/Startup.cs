@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Alura.WebAPI.WebApp.Formartters;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using Alura.ListaLeitura.HttpClients;
 
 namespace Alura.ListaLeitura.WebApp
 {
@@ -46,32 +47,18 @@ namespace Alura.ListaLeitura.WebApp
 
             services.AddTransient<IRepository<Livro>, RepositorioBaseEF<Livro>>();
 
+            services.AddHttpClient<LivroApiClient>(client => 
+            {
+                client.BaseAddress = new Uri("http://localhost:6000/api/");
+
+            });
+
             services.AddMvc(options => 
             {
                 options.OutputFormatters.Add(new LivroCsvFormatter());
 
             }).AddXmlSerializerFormatters();
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = "JwtBearer";
-            //    options.DefaultChallengeScheme = "JwtBearer";
-
-            //}).AddJwtBearer("JwtBearer", options => 
-            //{
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
-            //        ClockSkew = TimeSpan.FromMinutes(5),
-            //        ValidIssuer = "Alura.WebApp",
-            //        ValidAudience = "Postman",
-
-            //    };
-            //});
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

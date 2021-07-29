@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Alura.ListaLeitura.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")] // Indica que o roteamento será pelo nome do controlador
     public class LivrosController : ControllerBase
