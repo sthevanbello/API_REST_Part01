@@ -14,14 +14,6 @@ namespace Alura.ListaLeitura.WebApp.Controllers
     [Authorize]
     public class LivroController : Controller
     {
-        //private readonly IRepository<Livro> _repo;
-        //private readonly LivroApiClient _livroApiClient;
-
-        //public LivroController(IRepository<Livro> repository, LivroApiClient livroApiClient)
-        //{
-        //    _repo = repository;
-        //    _livroApiClient = livroApiClient;
-        //}
 
         private readonly IRepository<Livro> _repo;
         private readonly LivroApiClient _livroApiClient;
@@ -103,14 +95,16 @@ namespace Alura.ListaLeitura.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Remover(int id)
+        public async Task<IActionResult> Remover(int id)
         {
-            var model = _repo.Find(id);
+            var model = await _livroApiClient.GetLivroAsync(id);
+
             if (model == null)
             {
                 return NotFound();
             }
-            _repo.Excluir(model);
+            await _livroApiClient.DeleteLivroAsync(model.Id);
+
             return RedirectToAction("Index", "Home");
         }
         public ActionResult<LivroUpload> DetalhesJson(int id)
