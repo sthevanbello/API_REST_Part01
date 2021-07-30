@@ -57,13 +57,13 @@ namespace Alura.ListaLeitura.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Incluir([FromBody] LivroUpload model)
+        public IActionResult Incluir([FromForm] LivroUpload model)
         {
             if (ModelState.IsValid)
             {
                 var livro = model.ToLivro();
                 _repo.Incluir(livro);
-                var uri = Url.Action("Recuperar", new { id = livro.Id });
+                var uri = Url.Action("GetLivros", new { id = livro.Id });
                 return Created(uri, livro); // 201
             }
 
@@ -71,7 +71,7 @@ namespace Alura.ListaLeitura.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Alterar([FromBody] LivroUpload model)
+        public IActionResult Alterar([FromForm] LivroUpload model)
         {
             if (ModelState.IsValid)
             {
