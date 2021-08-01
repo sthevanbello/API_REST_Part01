@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Alura.WebAPI.WebApp.Formartters;
 using System;
 using Alura.ListaLeitura.HttpClients;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Alura.ListaLeitura.WebApp
 {
@@ -23,27 +23,20 @@ namespace Alura.ListaLeitura.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<LeituraContext>(options => {
-            //    options.UseSqlServer(Configuration.GetConnectionString("ListaLeitura"));
-            //});
 
             services.AddDbContext<AuthDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("AuthDB"));
             });
 
-            services.AddIdentity<Usuario, IdentityRole>(options =>
+
+
+
+            services.AddHttpContextAccessor();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option => 
             {
-                options.Password.RequiredLength = 3;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-            }).AddEntityFrameworkStores<AuthDbContext>();
-
-            services.ConfigureApplicationCookie(options => {
-                options.LoginPath = "/Usuario/Login";
+                option.LoginPath = "/Usuario/Login";
             });
-
-            //services.AddTransient<IRepository<Livro>, RepositorioBaseEF<Livro>>();
 
             services.AddHttpClient<LivroApiClient>(client => 
             {
