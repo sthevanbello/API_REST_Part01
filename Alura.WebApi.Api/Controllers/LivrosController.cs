@@ -11,7 +11,7 @@ namespace Alura.ListaLeitura.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")] // Indica que o roteamento será pelo nome do controlador
+    [Route("api/v1.0/[controller]")] // Indica que o roteamento será pelo nome do controlador
     public class LivrosController : ControllerBase
         // Deve-se derivar da classe COntrollerBase quando for construir uma API
     {
@@ -31,7 +31,7 @@ namespace Alura.ListaLeitura.Api.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetLivros(int id)
+        public IActionResult Recuperar(int id)
         {
             var model = _repo.Find(id);
             if (model == null)
@@ -63,7 +63,7 @@ namespace Alura.ListaLeitura.Api.Controllers
             {
                 var livro = model.ToLivro();
                 _repo.Incluir(livro);
-                var uri = Url.Action("GetLivros", new { id = livro.Id });
+                var uri = Url.Action("Recuperar", new { id = livro.Id });
                 return Created(uri, livro); // 201
             }
 
