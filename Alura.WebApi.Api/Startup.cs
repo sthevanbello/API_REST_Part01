@@ -61,14 +61,16 @@ namespace Alura.WebApi.Api
                 };
             });
 
-            services.AddApiVersioning(options => {
-                //options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-                options.ApiVersionReader = ApiVersionReader.Combine(
-                    new QueryStringApiVersionReader("api-version"),
-                    new HeaderApiVersionReader("api-version")
-                    );
+            services.AddApiVersioning();
 
-            });
+            //services.AddApiVersioning(options => {
+            //    //options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            //    options.ApiVersionReader = ApiVersionReader.Combine(
+            //        new QueryStringApiVersionReader("api-version"),
+            //        new HeaderApiVersionReader("api-version")
+            //        );
+
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

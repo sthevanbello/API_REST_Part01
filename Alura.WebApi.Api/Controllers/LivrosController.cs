@@ -12,8 +12,8 @@ namespace Alura.ListaLeitura.Api.Controllers
     [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
-    // [Route("api/v{version:apiVersion}/[controller]")] // Indica que o roteamento será pelo nome do controlador
-    [Route("api/[controller]")] // Indica que o roteamento será pelo nome do controlador
+    [Route("api/v{version:apiVersion}/[controller]")] // Indica que o roteamento será pelo nome do controlador
+    //[Route("api/[controller]")] // Indica que o roteamento será pelo nome do controlador
     public class LivrosController : ControllerBase
         // Deve-se derivar da classe COntrollerBase quando for construir uma API
     {

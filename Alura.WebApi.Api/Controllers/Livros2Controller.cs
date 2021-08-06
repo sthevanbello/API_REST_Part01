@@ -1,5 +1,6 @@
 ﻿using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
+using Alura.WebApi.Api.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Alura.WebApi.Api.Controllers
     [Authorize]
     [ApiController]
     [ApiVersion("2.0")]
-    //[Route("api/v{version:apiVersion}/livros")]
-    [Route("api/livros")]
+    [Route("api/v{version:apiVersion}/livros")]
+    //[Route("api/livros")]
     public class Livros2Controller : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
@@ -21,9 +22,12 @@ namespace Alura.WebApi.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListaDeLivros()
+        public IActionResult ListaDeLivros([FromQuery] LivroFiltro filtro)
         {
-            var lista = _repo.All.Select(l => l.ToApi()).ToList();
+            var lista = _repo.All
+                .AplicaFiltro(filtro)
+                .Select(l => l.ToApi())
+                .ToList();
             return Ok(lista);
         }
 
