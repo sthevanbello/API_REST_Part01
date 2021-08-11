@@ -3,6 +3,7 @@ using Alura.ListaLeitura.Persistencia;
 using Alura.WebApi.Api.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace Alura.WebApi.Api.Controllers
@@ -66,9 +67,18 @@ namespace Alura.WebApi.Api.Controllers
             if (ModelState.IsValid)
             {
                 var livro = model.ToLivro();
-                _repo.Incluir(livro);
-                var uri = Url.Action("Recuperar", new { id = livro.Id });
-                return Created(uri, livro); // 201
+                try
+                {
+                    _repo.Incluir(livro);
+
+                }
+                catch (Exception e)
+                {
+                    var errorResponse = ErrorResponse.From(e);
+                    return StatusCode(500, errorResponse);
+                }
+                    var uri = Url.Action("Recuperar", new { id = livro.Id });
+                    return Created(uri, livro); // 201
             }
 
             return BadRequest();
