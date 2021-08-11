@@ -1,9 +1,11 @@
 ﻿using Alura.ListaLeitura.Api.Formartters;
 using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
+using Alura.WebApi.Api.Filtros;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,8 +39,14 @@ namespace Alura.WebApi.Api
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Add(new LivroCsvFormatter());
+                options.Filters.Add(typeof(ErrorResponseFilter));
 
             }).AddXmlSerializerFormatters();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddAuthentication(options =>
             {
@@ -63,14 +71,7 @@ namespace Alura.WebApi.Api
 
             services.AddApiVersioning();
 
-            //services.AddApiVersioning(options => {
-            //    //options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            //    options.ApiVersionReader = ApiVersionReader.Combine(
-            //        new QueryStringApiVersionReader("api-version"),
-            //        new HeaderApiVersionReader("api-version")
-            //        );
-
-            //});
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
