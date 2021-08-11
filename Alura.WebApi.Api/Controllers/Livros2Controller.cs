@@ -67,21 +67,12 @@ namespace Alura.WebApi.Api.Controllers
             if (ModelState.IsValid)
             {
                 var livro = model.ToLivro();
-                try
-                {
-                    _repo.Incluir(livro);
-
-                }
-                catch (Exception e)
-                {
-                    var errorResponse = ErrorResponse.From(e);
-                    return StatusCode(500, errorResponse);
-                }
-                    var uri = Url.Action("Recuperar", new { id = livro.Id });
-                    return Created(uri, livro); // 201
+                _repo.Incluir(livro);
+                var uri = Url.Action("Recuperar", new { id = livro.Id });
+                return Created(uri, livro); // 201
             }
 
-            return BadRequest();
+            return BadRequest(ErrorResponse.FromModelState(ModelState));
         }
 
         [HttpPut]
